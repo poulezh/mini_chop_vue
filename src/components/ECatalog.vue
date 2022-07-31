@@ -2,87 +2,51 @@
   <div class="e-catalog">
     <h1>Catalog</h1>
     <div class="e-catalog__list" >
-      <ECatalogItem v-for="product in products" 
-        :key="product.id" 
+      <ECatalogItem v-for="product in PRODUCTS" 
+        :key="product.key" 
         :product="product"
-        @sendDataToParent="showChildArticle" />
+        @addToCart="addToCart" />
     </div>
   </div>
 </template>
 
 <script>
 import ECatalogItem from "./ECatalogItem.vue";
+import {mapActions, mapGetters} from "vuex";
 export default {
   name: "ECatalog",
   created() {},
   data() {
     return {
-      products: [
-        {
-          id: 1,
-          image: "1.jpg",
-          name: "T-shirt 1",
-          price: 210,
-          article: "T1",
-          available: true,
-          category: "Мужские",
-        },
-        {
-          id: 2,
-          image: "2.jpg",
-          name: "T-shirt 2",
-          price: 350,
-          article: "T2",
-          available: true,
-          category: "Женские",
-        },
-        {
-          id: 3,
-          image: "3.jpg",
-          name: "T-shirt 3",
-          price: 400,
-          article: "T3",
-          available: false,
-          category: "Женские",
-        },
-        {
-          id: 4,
-          image: "4.jpg",
-          name: "T-shirt 4",
-          price: 500,
-          article: "T4",
-          available: true,
-          category: "Мужские",
-        },
-        {
-          id: 5,
-          image: "5.jpg",
-          name: "T-shirt 5",
-          price: 500,
-          article: "T5",
-          available: false,
-          category: "Женские",
-        },
-        {
-          id: 6,
-          image: "6.jpeg",
-          name: "T-shirt 6",
-          price: 870,
-          article: "T6",
-          available: true,
-          category: "Женские",
-        },
-      ],
+      products: [],
+
     };
   },
   props: {},
   methods: {
-    showChildArticle(data){
-      console.log(data);
-
+    ...mapActions([
+      'GET_PRODUCTS_FROM_API',
+      'ADD_TO_CART'
+    ]),
+    addToCart(data){
+      data.id = Math.random()
+      this.ADD_TO_CART(data)
     }
   },
+  computed: {
+    ...mapGetters([
+      'PRODUCTS'
+    ])
+  },
   components: { ECatalogItem },
+  mounted() {
+    this.GET_PRODUCTS_FROM_API()
+    .then((response) => {
+      if (response.data){
+        console.log(response.data, 'data')
+      }
+    })
+  }
 };
 </script>
 

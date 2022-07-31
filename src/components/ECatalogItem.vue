@@ -4,7 +4,7 @@
     <p class="e-catalog-item__name">{{product.name}}</p>
     <p class="e-catalog-item__price">Price: {{product.price}} p.</p>
     <p class="e-catalog-item__category">{{product.category}}</p>
-    <button class="e-catalog-item__btn btn" @click="sendDataToParent">Add Cart</button>
+    <button class="e-catalog-item__btn btn" @click="addToCart">Add Cart</button>
 
   </div>
 </template>
@@ -26,10 +26,11 @@ export default {
     }
   },
   methods: {
-    sendDataToParent(){
-      this.$emit('sendDataToParent', this.product.article)
+    addToCart(){
+      this.$emit('addToCart', this.product)
 
     }
+
   },
 };
 </script>

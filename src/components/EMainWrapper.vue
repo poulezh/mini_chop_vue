@@ -1,12 +1,17 @@
 <template>
-  <div class="e-main-wrapper" >{{title}}</div>
+  <div class="e-main-wrapper" ></div>
   <ECatalog />
-  <ECard />
+  <ECard 
+    v-if="CART.length"
+    :cart_data="CART"
+    />
 </template>
 
 <script>
 import ECatalog from './ECatalog.vue';
 import ECard from './ECard.vue';
+import {mapGetters} from "vuex";
+
 export default {
     name: "EMainWrapper",
     created() { },
@@ -17,7 +22,12 @@ export default {
     },
     props: {},
     methods: {},
-    components: { ECatalog, ECard,  }
+    components: { ECatalog, ECard,  },
+    computed: {
+        ...mapGetters([
+            'CART'
+        ])
+    }
 };
 </script>
 
